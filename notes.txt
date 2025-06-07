@@ -1,7 +1,7 @@
 Flask Weather App that gets waether by city using the OpenWeather API.
 
 
-Martin@DESKTOP-HTLQ9GM /cygdrive/c/Users/Martin/Documents/Coding/weather_app
+
 $ git status
 On branch main
 Your branch is up to date with 'origin/main'.
@@ -13,7 +13,6 @@ Changes not staged for commit:
 
 no changes added to commit (use "git add" and/or "git commit -a")
 
-Martin@DESKTOP-HTLQ9GM /cygdrive/c/Users/Martin/Documents/Coding/weather_app
 $ pip install flask
 Requirement already satisfied: flask in c:\python312\lib\site-packages (3.0.0)
 Requirement already satisfied: Werkzeug>=3.0.0 in c:\python312\lib\site-packages (from flask) (3.0.1)
@@ -43,7 +42,6 @@ Installing collected packages: pip
       Successfully uninstalled pip-23.2.1
 Successfully installed pip-25.1.1
 
-Martin@DESKTOP-HTLQ9GM /cygdrive/c/Users/Martin/Documents/Coding/weather_app
 $ pip --version
 pip 25.1.1 from C:\Python312\Lib\site-packages\pip (python 3.12)
 
@@ -58,19 +56,6 @@ https://home.openweathermap.org/
 my old credentials...
 password: Vg#LKUw6F%7)h7> (not really LOL!)
 
-my api key: ec6f7054139c2b23cc945f009ffb381a
-
-Martin@DESKTOP-HTLQ9GM /cygdrive/c/Users/Martin/Documents/Coding/weather_app
-$ python app.py
-Traceback (most recent call last):
-  File "C:\Users\Martin\Documents\Coding\weather_app\app.py", line 2, in <module>
-    import requests
-ModuleNotFoundError: No module named 'requests'
-
-Martin@DESKTOP-HTLQ9GM /cygdrive/c/Users/Martin/Documents/Coding/weather_app
-$ ^C
-
-Martin@DESKTOP-HTLQ9GM /cygdrive/c/Users/Martin/Documents/Coding/weather_app
 $ pip install requests
 Collecting requests
   Downloading requests-2.32.3-py3-none-any.whl.metadata (4.6 kB)
