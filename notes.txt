@@ -74,7 +74,6 @@ Downloading certifi-2025.4.26-py3-none-any.whl (159 kB)
 Installing collected packages: urllib3, idna, charset-normalizer, certifi, requests
 Successfully installed certifi-2025.4.26 charset-normalizer-3.4.2 idna-3.10 requests-2.32.3 urllib3-2.4.0
 
-Martin@DESKTOP-HTLQ9GM /cygdrive/c/Users/Martin/Documents/Coding/weather_app
 $ python app.py
  * Serving Flask app 'app'
  * Debug mode: on
