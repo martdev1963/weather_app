@@ -26,7 +26,6 @@ Requirement already satisfied: MarkupSafe>=2.0 in c:\python312\lib\site-packages
 [notice] A new release of pip is available: 23.2.1 -> 25.1.1
 [notice] To update, run: python.exe -m pip install --upgrade pip
 
-Martin@DESKTOP-HTLQ9GM /cygdrive/c/Users/Martin/Documents/Coding/weather_app
 $ python.exe -m pip install --upgrade pip
 Requirement already satisfied: pip in c:\python312\lib\site-packages (23.2.1)
 Collecting pip
