@@ -4,6 +4,7 @@ import requests
 # instantiate a Flask object by calling the Flask constructor...
 app = Flask(__name__)
 
+
 # should hide the api key inside an environment variable to avoid 'Slacker' exploits...
 API_KEY = "80189448ac9b9dfdace19c6e4e55b826"
 
@@ -17,6 +18,9 @@ to get user's local weather forcast...
 
 --------------------------------------------------------------------------------------------
 """
+
+API_KEY = "  "
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
