@@ -4,24 +4,197 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
+     <!-- Code Refactor START
+     Adding some CSS pizazz    
+    -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to top right, #74ebd5, #acb6e5);
+            text-align: center;
+            padding: 50px;
+            color: #333;
+        }
+
+        form {
+            margin: 20px auto;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            width: 200px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .weather-box {
+            margin-top: 30px;
+            background-color: rgba(255,255,255,0.8);
+            padding: 20px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+    </style>
+    <!-- Code Refactor END -->
 </head>
 <body>
-    <h1>Check the Weather</h1>
-    <form method="POST">
-        <input type="text" name="city" placeholder="Enter city" required>
-        <button type="submit">Get Weather</button>
-    </form>
+    <h1>🌤️ Weather Now</h1>
 
+    <h3>*MART_BAT WEATHER APP*</h3>
+    <!--Spinner element with id loading -->
+    <div id="loading" style="display:none;"><p>Loading weather data...</p>
+    </div>
+
+    <noscript>
+        <style>
+            #manual-form { display: block !important; }
+            #loading, button { display: none; }
+        </style>
+        <p style="color: red;">JavaScript is disabled. Please enter your city manually.</p>
+    </noscript>
+    
+    <!-- Code Refactor START 
+    Using the user's location coords for pin pointed weather results...
+    -->
+       <button onclick="getLocation(event)">Use My Location</button> 
+
+       <script>
+
+           /*
+           ---------------------------------------------------------------------------------------------------------
+                                                FUNCTION DEFINITIONS START
+           ---------------------------------------------------------------------------------------------------------
+           */
+           // Update the function to check for passed-in event safely:
+
+           let locationRequested = false;
+
+            function getLocation(event = null) { // not passing any value to the parameter: event but need it to call its function here...
+                if (event) event.preventDefault(); // stop form from submitting
+                if (locationRequested) return; // 🛑 Prevent duplicates
+                locationRequested = true;
+                
+                const loading = document.getElementById("loading");
+                loading.style.display = "block";
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(sendPosition, showError, { // passing timeout handler object
+                        timeout: 10000, // 10 secs max
+                        maximumAge: 0
+                    }); // including the error callback function, showError()...
+                } else {
+                    alert("Geolocation is not supported by this browser...");
+                    loading.style.display = "none";
+                }
+            }
+
+            function sendPosition(position) {
+                console.log("Geolocation success:", position);
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                window.location.href = `/weather?lat=${lat}&lon=${lon}`;  //weather route with route variables 
+                //wrapped in a template literal (use backtick char ``) data structure!...delicious!              
+            }
+
+            /**
+             * Add a Manual Bypass (for dev sanity)
+             * Add this to your script temporarily to skip geolocation and show the form after a few seconds:
+             *  
+            */
+            setTimeout(() => {
+                const hasLat = window.location.search.includes("lat=");
+                const weatherBox = document.querySelector(".weather-box");
+                if (!hasLat && !weatherBox) {
+                    document.getElementById("loading").style.display = "none";
+                    document.getElementById("manual-form").style.display = "block";
+                }
+            }, 10000);
+
+
+            function showError(error) {
+                locationRequested = false; // 👈 Reset the flag to allow retrying after an error
+                console.error("Geolocation error:", error);
+                const loading = document.getElementById("loading");
+                if (loading) loading.style.display = "none";
+                document.getElementById("manual-form").style.display = "block";
+                alert("Could not get your location. Please enter city manually.");
+            }
+
+            /*
+            ---------------------------------------------------------------------------------------------------------
+                                                FUNCTION DEFINITIONS END
+            ---------------------------------------------------------------------------------------------------------
+           */
+                    // Code below fixes the GET / POST conflict...
+           /* --------------------------------------------------------------------------------
+                CODE PREVENTING FORM FROM SUBMITTING WHILE GEOLOCATION IS HAPPENING
+                If the user is redirected with lat/lon, we don’t POST again.
+                If location fails or isn’t used, the user can still search manually.
+              --------------------------------------------------------------------------------
+           */
+           window.onload = function() {
+                if (document.getElementById("manual-form").style.display === "none") {
+                    // try geolocation first
+                    getLocation();
+                }
+                  
+
+                // Stop the form from submitting while geolocation is happening...
+                const form = document.getElementById("weather-form");
+                /***
+                 *  be sure this executes only if the form element exists, 
+                 * make sure the form is visible
+                 * otherwise it can throw an error on form.addEventListener.
+                 * 
+                */
+                if (form) {
+                  form.addEventListener("submit", function(event) {
+                        if (document.location.search.includes("lat=")) {
+                            event.preventDefault(); // suppress POST if already got weather from location...
+                         }
+                 });
+                };
+            };
+
+
+       </script>
+    <!-- Code Refactor END -->
+    <!-- hide the form until geolocation fails? Wrap your form in a div... style="display:none;" hides the form -->
+    <div id="manual-form" style="display:none;">   
+        <form id="weather-form" method="POST" action="/">
+            <input type="text" name="city" placeholder="Enter city" required pattern="[A-Za-z\s]+" title="City name should only contain letters.">
+
+            <button type="submit">Get Weather</button>
+        </form>
+    </div>
     {% if weather %}
-        {% if weather.error %}
-            <p>{{ weather.error }}</p>
-        {% else %}
-            <h2>Weather in  {{ weather.city }}</h2>
-            <!--<p>{{weather.temperature}} degrees C, {{weather.description}}</p> -->
-            <!--Using the new keys used in the code refactoring of the weather object in app.py -->
-            <p>{{weather.temp_c}} degrees C / {{weather.temp_f}} degrees F {{weather.description}}</p>
-            <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="">
-        {% endif %}
+  <div class="weather-box">
+    {% if weather.error %}
+      <p>{{ weather.error }}</p>
+    {% else %}
+      <h2>Weather in {{ weather.city }}</h2>
+      <p>{{ weather.temp_c }} °C / {{ weather.temp_f }} °F — {{ weather.description }}</p>
+      <img src="https://openweathermap.org/img/wn/{{ weather.icon|default('01d') }}@2x.png" alt="Weather icon">
+
     {% endif %}
+  </div>
+{% else %}
+  <p style="margin-top: 30px;">❌ No weather data found.</p>
+{% endif %}
 </body>
 </html>
