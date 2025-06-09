@@ -19,9 +19,6 @@ to get user's local weather forcast...
 --------------------------------------------------------------------------------------------
 """
 
-API_KEY = "  "
-
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     weather = {}
