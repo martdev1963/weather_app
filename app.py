@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 # should hide the api key inside an environment variable to avoid 'Slacker' exploits...
-API_KEY = "80189448ac9b9dfdace19c6e4e55b826"
+API_KEY = " "
 
 """
 --------------------------------------------------------------------------------------------
